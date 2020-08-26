@@ -5,14 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.inventoryapp.R
+import com.example.inventoryapp.adapter.ProductAdapter
+import com.example.inventoryapp.model.Product
 import kotlinx.android.synthetic.main.fragment_product_list.*
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -20,21 +22,9 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class ProductListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-
-        btnRegistrar.setOnClickListener(View.OnClickListener {
-            val controller = findNavController()
-            controller.navigate(R.id.productRegister)
-        })
     }
 
     override fun onCreateView(
@@ -45,23 +35,41 @@ class ProductListFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_product_list, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProductListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProductListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val products = ArrayList<Product>()
+        arguments?.let {
+//            var product = ProductListFragment
+        }
+        products.add(
+            Product(
+                "Chave de fenda",
+                104,
+                Date(),
+                1,
+                R.drawable.box
+            )
+        )
+        products.add(
+            Product(
+                "Alicate",
+                100,
+                Date(),
+                0,
+                R.drawable.box
+            )
+        )
+
+        val myAdapter = ProductAdapter(products)
+
+        recyclerView.layoutManager = StaggeredGridLayoutManager(
+            1,
+            StaggeredGridLayoutManager.VERTICAL)
+
+        recyclerView.adapter = myAdapter
+
+        btnRegistrar.setOnClickListener(View.OnClickListener {
+           it.findNavController().navigate(R.id.action_productList_to_productRegister)
+        })
+        super.onViewCreated(view, savedInstanceState)
     }
 }

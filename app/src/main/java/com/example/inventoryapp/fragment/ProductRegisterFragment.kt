@@ -1,33 +1,26 @@
 package com.example.inventoryapp.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.inventoryapp.R
+import com.example.inventoryapp.model.Product
+import kotlinx.android.synthetic.main.card_view.*
+import kotlinx.android.synthetic.main.fragment_product_list.*
+import kotlinx.android.synthetic.main.fragment_product_register.*
+import kotlinx.android.synthetic.main.toolbar.*
+import java.time.LocalDateTime
+import java.util.*
+import kotlin.collections.ArrayList
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ProductRegisterFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ProductRegisterFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -38,23 +31,33 @@ class ProductRegisterFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_product_register, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProductRegisterFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProductRegisterFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        toolbarPrincipal.title = "Cadastro de Produto"
+
+        btnSalvar.setOnClickListener(View.OnClickListener {
+            var status = 0
+            when {
+                radio0.isSelected -> {
+                    status = 0
+                }
+                radio1.isSelected -> {
+                    status = 1
+                }
+                else -> {
+                    Toast.makeText(context, "Selecione um Status!", Toast.LENGTH_SHORT).show()
                 }
             }
+            val product = Product(
+                txtRegisterNome.text.toString(),
+                txtRegisterQtde.text.toString().toInt(),
+                Date(),
+                status,
+                R.drawable.box
+            )
+
+            val action = ProductRegisterFragmentDirections.actionProductRegisterToProductList(product)
+            it.findNavController().navigate(action)
+        })
+        super.onViewCreated(view, savedInstanceState)
     }
 }

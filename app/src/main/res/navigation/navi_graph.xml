@@ -9,10 +9,23 @@
         android:id="@+id/productList"
         android:name="com.example.inventoryapp.fragment.ProductListFragment"
         android:label="Product List"
-        tools:layout="@layout/fragment_product_list" />
+        tools:layout="@layout/fragment_product_list" >
+        <action
+            android:id="@+id/action_productList_to_productRegister"
+            app:destination="@id/productRegister" />
+    </fragment>
     <fragment
         android:id="@+id/productRegister"
         android:name="com.example.inventoryapp.fragment.ProductRegisterFragment"
         android:label="Product Register"
-        tools:layout="@layout/fragment_product_register" />
+        tools:layout="@layout/fragment_product_register" >
+        <action
+            android:id="@+id/action_productRegister_to_productList"
+            app:destination="@id/productList">
+            <argument
+                android:name="productArg"
+                app:argType="com.example.inventoryapp.model.Product"
+            />
+        </action>
+    </fragment>
 </navigation>
