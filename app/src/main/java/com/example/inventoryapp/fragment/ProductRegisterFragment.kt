@@ -9,13 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.inventoryapp.R
 import com.example.inventoryapp.model.Product
-import kotlinx.android.synthetic.main.card_view.*
-import kotlinx.android.synthetic.main.fragment_product_list.*
 import kotlinx.android.synthetic.main.fragment_product_register.*
 import kotlinx.android.synthetic.main.toolbar.*
-import java.time.LocalDateTime
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ProductRegisterFragment : Fragment() {
 
@@ -36,11 +32,12 @@ class ProductRegisterFragment : Fragment() {
 
         btnSalvar.setOnClickListener(View.OnClickListener {
             var status = 0
+            var id: Int = radioGroup.checkedRadioButtonId
             when {
-                radio0.isSelected -> {
+                id == radio0.id -> {
                     status = 0
                 }
-                radio1.isSelected -> {
+                id == radio1.id -> {
                     status = 1
                 }
                 else -> {

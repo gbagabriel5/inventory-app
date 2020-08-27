@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.inventoryapp.R
@@ -38,8 +39,12 @@ class ProductListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val products = ArrayList<Product>()
         arguments?.let {
-//            var product = ProductListFragment
+            var product = ProductListFragmentArgs.fromBundle(it).product
+            product.let {
+                products.add(product)
+            }
         }
+
         products.add(
             Product(
                 "Chave de fenda",
@@ -66,6 +71,7 @@ class ProductListFragment : Fragment() {
             StaggeredGridLayoutManager.VERTICAL)
 
         recyclerView.adapter = myAdapter
+
 
         btnRegistrar.setOnClickListener(View.OnClickListener {
            it.findNavController().navigate(R.id.action_productList_to_productRegister)
