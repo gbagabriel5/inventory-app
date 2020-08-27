@@ -68,10 +68,10 @@ class ProductListFragment : Fragment() {
 
         recyclerView.adapter = myAdapter
 
+        floatingActionButton.setOnClickListener {
+            it.findNavController().navigate(R.id.action_productList_to_productRegister)
+        }
 
-        btnRegistrar.setOnClickListener(View.OnClickListener {
-           it.findNavController().navigate(R.id.action_productList_to_productRegister)
-        })
         super.onViewCreated(view, savedInstanceState)
     }
 }
