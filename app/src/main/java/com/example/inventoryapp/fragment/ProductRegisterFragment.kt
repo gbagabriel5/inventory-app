@@ -15,10 +15,6 @@ import java.util.*
 
 class ProductRegisterFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,29 +27,36 @@ class ProductRegisterFragment : Fragment() {
         toolbarPrincipal.title = "Cadastro de Produto"
 
         btnSalvar.setOnClickListener(View.OnClickListener {
-            var status = 0
             var id: Int = radioGroup.checkedRadioButtonId
-            when {
-                id == radio0.id -> {
-                    status = 0
+            when (id) {
+                radio0.id -> {
+                    val product = Product(
+                        txtRegisterNome.text.toString(),
+                        txtRegisterQtde.text.toString().toInt(),
+                        Date(),
+                        0,
+                        R.drawable.box
+                    )
+                    val action =
+                        ProductRegisterFragmentDirections.actionProductRegisterToProductList(product)
+                    it.findNavController().navigate(action)
                 }
-                id == radio1.id -> {
-                    status = 1
+                radio1.id -> {
+                    val product = Product(
+                        txtRegisterNome.text.toString(),
+                        txtRegisterQtde.text.toString().toInt(),
+                        Date(),
+                        1,
+                        R.drawable.box
+                    )
+                    val action =
+                        ProductRegisterFragmentDirections.actionProductRegisterToProductList(product)
+                    it.findNavController().navigate(action)
                 }
                 else -> {
                     Toast.makeText(context, "Selecione um Status!", Toast.LENGTH_SHORT).show()
                 }
             }
-            val product = Product(
-                txtRegisterNome.text.toString(),
-                txtRegisterQtde.text.toString().toInt(),
-                Date(),
-                status,
-                R.drawable.box
-            )
-
-            val action = ProductRegisterFragmentDirections.actionProductRegisterToProductList(product)
-            it.findNavController().navigate(action)
         })
         super.onViewCreated(view, savedInstanceState)
     }
