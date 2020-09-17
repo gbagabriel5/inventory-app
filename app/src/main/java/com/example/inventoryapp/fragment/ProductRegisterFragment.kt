@@ -26,36 +26,36 @@ class ProductRegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         toolbarPrincipal.title = "Cadastro de Produto"
 
-        btnSalvar.setOnClickListener(View.OnClickListener {
+        btnSalvar.setOnClickListener(View.OnClickListener {view
             var id: Int = radioGroup.checkedRadioButtonId
-            when (id) {
-                radio0.id -> {
-                    val product = Product(
-                        txtRegisterNome.text.toString(),
-                        txtRegisterQtde.text.toString().toInt(),
-                        Date(),
-                        0,
-                        R.drawable.box
-                    )
-                    val action =
-                        ProductRegisterFragmentDirections.actionProductRegisterToProductList(product)
-                    it.findNavController().navigate(action)
+            var status = if(id.equals(radio1)) 1 else if (id.equals(radio0)) 0 else id
+
+            var nome: String? = txtRegisterNome.text.toString()
+            var qtde: String? = txtRegisterQtde.text.toString()
+
+            nome?.let {
+                qtde?.let {
+                    if (status > -1) {
+                        val product = Product(
+                            null,
+                            txtRegisterNome.text.toString(),
+                            txtRegisterQtde.text.toString().toInt(),
+                            Date(),
+                            status,
+                            R.drawable.box
+                        )
+                        val action = ProductRegisterFragmentDirections.
+                            actionProductRegisterToProductList(product)
+                        view.findNavController().navigate(action)
+                    } else {
+                        Toast.makeText(context, "Selecione um status!", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                }?:kotlin.run {
+                    Toast.makeText(context, "Digite a quantidade do produto!", Toast.LENGTH_LONG).show()
                 }
-                radio1.id -> {
-                    val product = Product(
-                        txtRegisterNome.text.toString(),
-                        txtRegisterQtde.text.toString().toInt(),
-                        Date(),
-                        1,
-                        R.drawable.box
-                    )
-                    val action =
-                        ProductRegisterFragmentDirections.actionProductRegisterToProductList(product)
-                    it.findNavController().navigate(action)
-                }
-                else -> {
-                    Toast.makeText(context, "Selecione um Status!", Toast.LENGTH_SHORT).show()
-                }
+            }?:kotlin.run {
+                Toast.makeText(context, "Digite o nome do produto!", Toast.LENGTH_LONG).show()
             }
         })
         super.onViewCreated(view, savedInstanceState)

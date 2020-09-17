@@ -13,7 +13,8 @@ import kotlinx.android.synthetic.main.card_view.view.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class ProductAdapter(private val productsList: ArrayList<Product>) : RecyclerView.Adapter<ProductAdapter.MyViewHolder>() {
+class ProductAdapter(private val productsList: List<Product>)
+    : RecyclerView.Adapter<ProductAdapter.MyViewHolder>() {
 
     class MyViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
         @RequiresApi(Build.VERSION_CODES.O)
