@@ -1,4 +1,4 @@
-package com.example.inventoryapp.fragment
+package com.example.inventoryapp.ui.fragment
 
 import android.os.Bundle
 import android.util.Log
@@ -6,14 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.inventoryapp.R
-import com.example.inventoryapp.adapter.ProductAdapter
-import com.example.inventoryapp.adapter.UserAdapter
-import com.example.inventoryapp.config.RetrofitInitializer
+import com.example.inventoryapp.ui.adapter.ProductAdapter
+import com.example.inventoryapp.ui.adapter.UserAdapter
+import com.example.inventoryapp.retrofit.config.RetrofitInitializer
 import com.example.inventoryapp.model.Product
 import com.example.inventoryapp.model.User
+import com.example.inventoryapp.ui.viewmodel.ProductListViewModel
 import kotlinx.android.synthetic.main.fragment_product_list.*
 import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
@@ -28,6 +30,11 @@ import kotlin.collections.ArrayList
  * create an instance of this fragment.
  */
 class ProductListFragment : Fragment() {
+
+    private val viewModel by lazy {
+        val provider = ViewModelProvider(this)
+        provider.get(ProductListViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,18 +76,18 @@ class ProductListFragment : Fragment() {
             )
         )
 
-        val call = RetrofitInitializer().productService().getByName()
-        call.enqueue(object: Callback<List<User>?>{
-            override fun onResponse(call: Call<List<User>?>,
-                                    response: Response<List<User>?>
+        val call = RetrofitInitializer().productService().getByName("")
+        call.enqueue(object: Callback<List<Product>?>{
+            override fun onResponse(call: Call<List<Product>?>,
+                                    response: Response<List<Product>?>
             ) {
                response?.body()?.let {
-                   val userList: List<User> = it
-                   configureListUser(userList)
+                   val productList: List<Product> = it
+                   configureListProduct(productList)
                }
             }
 
-            override fun onFailure(call: Call<List<User>?>, t: Throwable) {
+            override fun onFailure(call: Call<List<Product>?>, t: Throwable) {
                 Log.e("onFailure error", t?.message)
             }
 

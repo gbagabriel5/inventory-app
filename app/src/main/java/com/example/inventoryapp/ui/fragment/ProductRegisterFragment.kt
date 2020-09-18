@@ -1,4 +1,4 @@
-package com.example.inventoryapp.fragment
+package com.example.inventoryapp.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -44,6 +44,7 @@ class ProductRegisterFragment : Fragment() {
                             status,
                             R.drawable.box
                         )
+
                         val action = ProductRegisterFragmentDirections.
                             actionProductRegisterToProductList(product)
                         view.findNavController().navigate(action)

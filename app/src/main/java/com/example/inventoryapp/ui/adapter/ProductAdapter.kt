@@ -1,4 +1,4 @@
-package com.example.inventoryapp.adapter
+package com.example.inventoryapp.ui.adapter
 
 import android.graphics.Color
 import android.os.Build
