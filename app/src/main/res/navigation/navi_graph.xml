@@ -13,9 +13,6 @@
         <action
             android:id="@+id/action_productList_to_productRegister"
             app:destination="@id/productRegister" />
-        <argument
-            android:name="product"
-            app:argType="com.example.inventoryapp.model.Product" />
     </fragment>
     <fragment
         android:id="@+id/productRegister"

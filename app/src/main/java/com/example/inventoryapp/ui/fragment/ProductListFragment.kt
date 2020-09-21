@@ -21,8 +21,6 @@ import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -47,35 +45,6 @@ class ProductListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         toolbarPrincipal.title = "Inventario App"
 
-        val products = ArrayList<Product>()
-        arguments?.let {
-            var product = ProductListFragmentArgs.fromBundle(it).product
-            product.let {
-                products.add(product)
-            }
-        }
-
-        products.add(
-            Product(
-                null,
-                "Chave de fenda",
-                104,
-                Date(),
-                1,
-                R.drawable.box
-            )
-        )
-        products.add(
-            Product(
-                null,
-                "Alicate",
-                100,
-                Date(),
-                0,
-                R.drawable.box
-            )
-        )
-
         val call = RetrofitInitializer().productService().getByName("")
         call.enqueue(object: Callback<List<Product>?>{
             override fun onResponse(call: Call<List<Product>?>,
@@ -94,7 +63,6 @@ class ProductListFragment : Fragment() {
         })
 
 
-
         floatingActionButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_productList_to_productRegister)
         }
@@ -109,6 +77,7 @@ class ProductListFragment : Fragment() {
             StaggeredGridLayoutManager.VERTICAL)
 
         recyclerView.adapter = myAdapter
+
     }
     private fun configureListUser(users: List<User>) {
         val myAdapter = UserAdapter(users)

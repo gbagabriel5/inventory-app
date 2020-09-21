@@ -1,6 +1,7 @@
 package com.example.inventoryapp.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.inventoryapp.R
 import com.example.inventoryapp.model.Product
+import com.example.inventoryapp.retrofit.config.RetrofitInitializer
 import kotlinx.android.synthetic.main.fragment_product_register.*
 import kotlinx.android.synthetic.main.toolbar.*
-import java.util.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ProductRegisterFragment : Fragment() {
 
@@ -40,13 +44,26 @@ class ProductRegisterFragment : Fragment() {
                             null,
                             txtRegisterNome.text.toString(),
                             txtRegisterQtde.text.toString().toInt(),
-                            Date(),
-                            status,
-                            R.drawable.box
+                            null,
+                            status
                         )
 
+                        val call = RetrofitInitializer().productService().create(product)
+                        call.enqueue(object: Callback<Product?> {
+                            override fun onResponse(call: Call<Product?>,
+                                                    response: Response<Product?>
+                            ) {
+                                response?.body()?.let {
+                                    val product: Product = it
+                                }
+                            }
+                            override fun onFailure(call: Call<Product?>, t: Throwable) {
+                                Log.e("onFailure error", t?.message)
+                            }
+                        })
+
                         val action = ProductRegisterFragmentDirections.
-                            actionProductRegisterToProductList(product)
+                            actionProductRegisterToProductList()
                         view.findNavController().navigate(action)
                     } else {
                         Toast.makeText(context, "Selecione um status!", Toast.LENGTH_LONG)

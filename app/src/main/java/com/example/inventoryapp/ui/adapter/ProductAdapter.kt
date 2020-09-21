@@ -10,8 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.inventoryapp.R
 import com.example.inventoryapp.model.Product
 import kotlinx.android.synthetic.main.card_view.view.*
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import java.util.*
 
 class ProductAdapter(private val productsList: List<Product>)
     : RecyclerView.Adapter<ProductAdapter.MyViewHolder>() {
@@ -29,16 +28,17 @@ class ProductAdapter(private val productsList: List<Product>)
                 itemView.cardStatus.setCardBackgroundColor(Color.parseColor("#5CE023"))
             }
 
-            val now = LocalDateTime.now()
-            val date = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-            val dateFormatted = now.format(date)
+            //Get instance of calendar
+            val calendar = Calendar.getInstance(Locale.getDefault())
+            //get current date from ts
+            calendar.timeInMillis = product.date!!
+            //return formatted date
+            val data =  android.text.format.DateFormat.format("dd-MM-yyyy", calendar).toString()
+            val hora = android.text.format.DateFormat.format("HH:mm", calendar).toString()
+            itemView.txtData.text = data
+            itemView.txtHora.text = hora
 
-            val hour = DateTimeFormatter.ofPattern("HH:mm")
-            val hourFormatted = now.format(hour)
-
-            itemView.txtData.text = dateFormatted
-            itemView.txtHora.text = hourFormatted
-            itemView.imageView.setImageResource(product.image)
+            itemView.imageView.setImageResource(R.drawable.box)
 
         }
     }
